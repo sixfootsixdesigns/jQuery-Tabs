@@ -30,7 +30,7 @@
 		 */
 		_closeTabs: function () {
 			this.triggers.removeClass(this.options.activeTabLiClass);
-			this.tabs_elements.hide().removeClass(this.options.activeTabItemClass);
+			this.tabs_elements.hide().removeClass(this.options.activeTabPaneClass);
 		},
 		
 		/**
@@ -51,7 +51,7 @@
 		 * @private
 		 */
 		_startup: function () {
-			var self = this, tab_body_el = this.options.tabBodyId ? $(this.options.tabBodyId) : false;
+			var self = this, tab_body_el = this.options.tabContentId ? $(this.options.tabContentId) : false;
 			
 			if (this.active) {
 				this.destroy();
@@ -59,13 +59,13 @@
 
 			this.active = true;
 			this.triggers = this.container.children('ul:first-child').children();
-			this.triggersA = this.triggers.children(this.options.triggerTagType);
+			this.triggersA = this.triggers.children('a');
 
 			if (tab_body_el && tab_body_el.length) {
-				// by setting the option "tabBodyId" we can use a tab body that is not a child of the container. It can be anywere on the page.
-				this.tabs_elements = tab_body_el.children('.' + this.options.tabItem);
+				// by setting the option "tabContentId" we can use a tab body that is not a child of the container. It can be anywere on the page.
+				this.tabs_elements = tab_body_el.children('.' + this.options.tabPaneClass);
 			} else {
-				this.tabs_elements = this.container.children('.' + this.options.tabBody).children('.' + this.options.tabItem);
+				this.tabs_elements = this.container.children('.' + this.options.tabContentClass).children('.' + this.options.tabPaneClass);
 			}
 
 			this.triggersA.each(function (index) {
@@ -94,7 +94,7 @@
 			if (!this.options.killOpen && this.tabs_elements[num] && this.triggers[num]) {
 				this._closeTabs();
 				$(this.triggers[num]).addClass(this.options.activeTabLiClass);
-				$(this.tabs_elements[num]).addClass(this.options.activeTabItemClass).show();
+				$(this.tabs_elements[num]).addClass(this.options.activeTabPaneClass).show();
 				if (typeof this.options.openCallback === 'function') {
 					this.options.openCallback($(this.triggers[num]), $(this.tabs_elements[num]), this);
 				}
@@ -241,18 +241,17 @@
 	 * @type {Object}
 	 */
 	$.fn.jqueryTabs.defaults = {
-		activeTabItemClass: 'active',
+		activeTabPaneClass: 'active',
 		activeTabLiClass: 'active', 
-		tabBody: 'tab-content',
-		tabItem: 'tab-pane',
+		tabContentClass: 'tab-content',
+		tabPaneClass: 'tab-pane',
 		stopClass: 'dont-stop',
 		openCallback: null,
 		beforeOpenCallback: null,
 		initialOpenNum: 0,
 		initialOpenHref: null,
 		killOpen: false,
-		tabBodyId: null,
-		triggerTagType: 'a'
+		tabContentId: null
 	};
 
 	/**
