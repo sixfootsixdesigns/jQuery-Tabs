@@ -92,26 +92,26 @@ Bootstrap is not rquired. You just need the markup as shown in the example.html 
 			<td>beforeOpenCallback</td>
 			<td>The callback that fires before a tab is opened.</td>
 			<td>
-<code><pre>
+<pre>
 $('#selector').jqueryTabs({
 	beforeOpenCallback: function(li, pane, obj) {
 
 	}
 });
-</pre></code>
+</pre>
 			</td>
 		</tr>
 		<tr>
 			<td>openCallback</td>
 			<td>The callback that fires after a tab is openend.</td>
 			<td>
-<code><pre>
+<pre>
 $('#selector').jqueryTabs({
 	openCallback: function(li, pane, obj) {
 
 	}
 });
-</pre></code>
+</pre>
 			</td>
 		</tr>
 	</tbody>
