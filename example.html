@@ -4,6 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <style>
+        	.tab-pane {
+        		padding: 30px;
+        	}
+        </style>
     </head>
 	<body>
 		<div class="container">
@@ -21,9 +26,121 @@
 					<div class="tab-pane" id="tab-3"><p>This is the tab content for tab 3</p></div>
 				</div>
 			</div>
-			
+
+			<hr>
+
+			<h2>Show Second Tab On Startup Example (tab position)</h2>
+
+			<div class="jquery-tabs-auto" data-initial-open-num="1">
+				<ul class="nav nav-tabs">
+					<li><a href="#tab-1">Tab 1</a></li>
+					<li><a href="#tab-2">Tab 2</a></li>
+					<li><a href="#tab-3">Tab 3</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane" id="tab-1"><p>This is the tab content for tab 1</p></div>
+					<div class="tab-pane" id="tab-2"><p>This is the tab content for tab 2</p></div>
+					<div class="tab-pane" id="tab-3"><p>This is the tab content for tab 3</p></div>
+				</div>
+			</div>
+
+			<hr>
+
+			<h2>Show Third Tab On Startup Example (tab href)</h2>
+
+			<div class="jquery-tabs-auto" data-initial-open-href="#tab-3">
+				<ul class="nav nav-tabs">
+					<li><a href="#tab-1">Tab 1</a></li>
+					<li><a href="#tab-2">Tab 2</a></li>
+					<li><a href="#tab-3">Tab 3</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane" id="tab-1"><p>This is the tab content for tab 1</p></div>
+					<div class="tab-pane" id="tab-2"><p>This is the tab content for tab 2</p></div>
+					<div class="tab-pane" id="tab-3"><p>This is the tab content for tab 3</p></div>
+				</div>
+			</div>
+
+			<hr>
+
+			<h2>Make a tab a link</h2>
+			<div class="jquery-tabs-auto">
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#tab-1">Tab 1</a></li>
+					<li><a href="#tab-2">Tab 2</a></li>
+					<li><a href="#tab-3">Tab 3</a></li>
+					<li><a href="http://www.google.com" target="_blank" class="dont-stop">Link To Google</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab-1"><p>This is the tab content for tab 1</p></div>
+					<div class="tab-pane" id="tab-2"><p>This is the tab content for tab 2</p></div>
+					<div class="tab-pane" id="tab-3"><p>This is the tab content for tab 3</p></div>
+				</div>
+			</div>
+
+			<hr>
+
+			<h2>Callbacks (look in your console)</h2>
+			<div id="my-tabs-callback">
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#tab-1">Tab 1</a></li>
+					<li><a href="#tab-2">Tab 2</a></li>
+					<li><a href="#tab-3">Tab 3</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab-1"><p>This is the tab content for tab 1</p></div>
+					<div class="tab-pane" id="tab-2"><p>This is the tab content for tab 2</p></div>
+					<div class="tab-pane" id="tab-3"><p>This is the tab content for tab 3</p></div>
+				</div>
+			</div>
+
+			<hr>
+
+			<h2>Nested Example</h2>
+
+			<div class="jquery-tabs-auto">
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#tab-1">Tab 1</a></li>
+					<li><a href="#tab-2">Tab 2</a></li>
+					<li><a href="#tab-3">Tab 3</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab-1">
+						<div class="jquery-tabs-auto">
+							<ul class="nav nav-tabs">
+								<li class="active"><a href="#nested-tab-1">Nested Tab 1</a></li>
+								<li><a href="#nested-tab-2">Nested Tab 2</a></li>
+								<li><a href="#nested-tab-3">Nested Tab 3</a></li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane active" id="nested-tab-1"><p>Nested tab content for tab 1</p>
+								</div>
+								<div class="tab-pane" id="nested-tab-2"><p>Nested tab content for tab 2</p></div>
+								<div class="tab-pane" id="nested-tab-3"><p>Nested tab content for tab 3</p></div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="tab-2"><p>This is the tab content for tab 2</p></div>
+					<div class="tab-pane" id="tab-3"><p>This is the tab content for tab 3</p></div>
+				</div>
+			</div>
+
 		</div>
 		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-		<script src="js/bootstrap-tabs.js"></script>
+		<script src="js/jquery-tabs.min.js"></script>
+		<script>
+			jQuery(document).ready(function($) {
+				$('#my-tabs-callback').jqueryTabs({
+					beforeOpenCallback: function(li, pane, obj) {
+						console.log(li, pane, obj);
+						console.log('before opened ' + li.text());
+					},
+					openCallback: function(li, pane, obj) {
+						console.log(li, pane, obj);
+						console.log('opened ' + li.text());
+					}
+				});
+			});
+		</script>
 	</body>
 </html>

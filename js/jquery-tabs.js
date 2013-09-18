@@ -1,53 +1,29 @@
 ;(function ($) {
 	"use strict";
 
-	var BootstrapTabsObject = function(element, options) {
-		this.options = $.extend({}, $.fn.bootstrapTabs.defaults, options);
-		this.active = false;
+	var JqueryTabsObject = function(element, options) {
+		this.options = $.extend({}, $.fn.jqueryTabs.defaults, options);
 		this.container = $(element);
 		this.element_data = this.container.data();
-		this.triggers = null;
-		this.triggersA = null;
-		this.tabs_elements = null;
-		this.tabs_animation_block = null;
-		this.currentTab = 0;
-		
+
 		// data attribute options
-		if (this.element_data.activeTabItemClass) {
-			this.options.activeTabItemClass = this.element_data.activeTabItemClass; 
-		}
-		if (this.element_data.activeTabLiClass) {
-			this.options.activeTabLiClass = this.element_data.activeTabLiClass;
-		}
-		if (this.element_data.tabBody) {
-			this.options.tabBody = this.element_data.tabBody;
-		}
-		if (this.element_data.tabItem) {
-			this.options.tabItem = this.element_data.tabItem;
-		}
-		if (this.element_data.stopClass) {
-			this.options.stopClass = this.element_data.stopClass;
-		}
-		if (this.element_data.initialOpenNum) {
-			this.options.initialOpenNum = parseInt(this.element_data.initialOpenNum, 0);
-		}
-		if (this.element_data.initialOpenHref) {
-			this.options.initialOpenHref = this.element_data.initialOpenHref;
-		}
-		if (this.element_data.killOpen) {
-			this.options.killOpen = this.element_data.killOpen;
-		}
-		if (this.element_data.tabBodyId) {
-			this.options.tabBodyId = this.element_data.tabBodyId;
-		}
-		if (this.element_data.triggerTagType) {
-			this.options.triggerTagType = this.element_data.triggerTagType;
+		for(var j in this.element_data) {
+			if (this.element_data.hasOwnProperty(j)) {
+				this.option(j, this.element_data[j]);
+			}
 		}
 
 		this._startup();
 	};
 
-	BootstrapTabsObject.prototype = {
+	JqueryTabsObject.prototype = {
+		active: false,
+		triggers: null,
+		triggersA: null,
+		tabs_elements: null,
+		tabs_animation_block: null,
+		currentTab: 0,
+
 		/**
 		 * Closes all tabs.
 		 * @private
@@ -111,7 +87,6 @@
 		 * @param {Int} num The tab position to open
 		 */
 		openTab: function (num) {
-			var currentTabPosition;
 			this.currentTab = num;
 			if (typeof this.options.beforeOpenCallback === 'function') {
 				this.options.beforeOpenCallback($(this.triggers[num]), $(this.tabs_elements[num]), this);
@@ -133,13 +108,13 @@
 		 * @param {String} id The href of the a tag to open
 		 */
 		openByHref: function(id) {
-			var num = this.triggers.find(this.options.triggerTagType + '[href="' + id + '"]').attr('tab');
+			var num = this.triggers.find('[href="' + id + '"]').data('tab');
 			if (num) {
 				this.openTab(parseInt(num, 10));
 			} else {
 				this.openTab(0);
 			}
-		},		
+		},
 		
 		/**
 		 * Removes all events from the tab
@@ -224,9 +199,9 @@
 
 			return this;
 		}
-	};
+	};	
 	
-	$.fn.bootstrapTabs = function (option) {
+	$.fn.jqueryTabs = function (option) {
 		var isMethodCall = typeof option === "string",
 			args = Array.prototype.slice.call( arguments, 1 ),
 			returnValue = this;
@@ -238,7 +213,7 @@
 		// call internal method
 		if ( isMethodCall ) {
 			this.each(function() {
-				var instance = $(this).data('bootstrapTabs'),
+				var instance = $(this).data('jqueryTabs'),
 					methodValue = instance && $.isFunction( instance[option] ) ? instance[ option ].apply( instance, args ) : instance;
 				if (instance && methodValue && methodValue !== undefined ) {
 					returnValue = methodValue;
@@ -251,22 +226,26 @@
 		else {
 			this.each(function () {
 				var $this = $(this),
-					data = $this.data('bootstrapTabs'),
+					data = $this.data('jqueryTabs'),
 					options = typeof option === 'object' && option;
 				if (!data) {
-					$this.data('bootstrapTabs', (data = new BootstrapTabsObject(this, options)));
+					$this.data('jqueryTabs', (data = new JqueryTabsObject(this, options)));
 				}
 			});
 		}
 		return returnValue;
 	};	
 
-	$.fn.bootstrapTabs.defaults = {
+	/**
+	 * Default Options
+	 * @type {Object}
+	 */
+	$.fn.jqueryTabs.defaults = {
 		activeTabItemClass: 'active',
 		activeTabLiClass: 'active', 
 		tabBody: 'tab-content',
 		tabItem: 'tab-pane',
-		stopClass: 'dontstop',
+		stopClass: 'dont-stop',
 		openCallback: null,
 		beforeOpenCallback: null,
 		initialOpenNum: 0,
@@ -276,9 +255,13 @@
 		triggerTagType: 'a'
 	};
 
+	/**
+	 * Constructor
+	 */
+	$.fn.jqueryTabs.Constructor = JqueryTabsObject;
+
 	// on doc ready instantiate any tab with class name of "jquery-tabs-auto"
 	$(document).ready(function() {
-		$('.jquery-tabs-auto').bootstrapTabs();
+		$('.jquery-tabs-auto').jqueryTabs();
 	});
-
 })(jQuery);
